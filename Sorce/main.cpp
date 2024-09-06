@@ -73,10 +73,10 @@ void clearConsole();
 int main() {
     // Set Colors on Windows
     #ifdef _WIN32
-    // Windows clear command
+    // Windows set console colors
         system("color F5");
     #elif _WIN64
-    // Windows clear command
+    // Windows set console colors
         system("color F5");
     #endif
     // Club members
@@ -106,8 +106,8 @@ int main() {
             bookFunctions(books);
             break;
         case EXIT:
-            saveState(members, books);
             // Save state before exit
+            saveState(members, books);
             break;
         default:
             // Save and exit failure
@@ -143,8 +143,7 @@ void loadMembers(list<Member>& members) {
             // Add object to list
             members.push_back(Member(name, phone_number, email));
         }
-    }
-    else {
+    } else {
         cerr << "\n  Access Member Data Failed.\n";
     }
     // Close file
@@ -173,8 +172,7 @@ void loadBooks(list<Book>& books) {
             // Add object to list
             books.push_back(Book(title, author, stoi(read_state)));
         }
-    }
-    else {
+    } else {
         cerr << "\n  Access Book Data Failed.\n";
     }
     // Close file
@@ -189,7 +187,7 @@ void loadData(list<Member>& members, list<Book>& books) {
     loadBooks(books);
 } // ---------------------------------------------------------------------------
 
-// Save Members to members.bcd
+// Save Members to Members.dat
 void saveMembers(const list<Member>& members) {
     // Initialize output
     ofstream members_data_file;
@@ -204,15 +202,14 @@ void saveMembers(const list<Member>& members) {
             members_data_file << it->getPhoneNumber() << '\n';
             members_data_file << it->getEmail() << '\n';
         }
-    }
-    else {
+    } else {
         cerr << "\n  Save Member Data Failed.\n";
     }
     // Close file
     members_data_file.close();
 } // ---------------------------------------------------------------------------
 
-// Save Books to books.bcd
+// Save Books to Books.dat
 void saveBooks(const list<Book>& books) {
     // Initialize output
     ofstream books_data_file;
@@ -227,8 +224,7 @@ void saveBooks(const list<Book>& books) {
             books_data_file << it->getAuthor() << '\n';
             books_data_file << it->getReadState() << '\n';
         }
-    }
-    else {
+    } else {
         cerr << "\n  Save Book Data Failed.\n";
     }
     // Close file
@@ -273,8 +269,7 @@ int mainMenu() {
             cin.clear();
             cin.ignore();
             cout << "\n  Invalid option, please make a valid selection.\n";
-        }
-        else {
+        } else {
             // Remove newline character from input stream
             cin.ignore();
         }
@@ -313,8 +308,7 @@ int memberMenu() {
             cin.clear();
             cin.ignore();
             cout << "\n  Invalid option, please make a valid selection.\n";
-        }
-        else {
+        } else {
             // Remove newline character from input stream
             cin.ignore();
         }
@@ -328,7 +322,7 @@ int memberMenu() {
 
 // Member functions
 void memberFunctions(list<Member>& members) {
-    // Return to main menu
+    // Run member functions
     const int MAIN_MENU = 6;
     // Option
     int option;
@@ -380,8 +374,7 @@ void listMembers(const list<Member>& members) {
                 "  Phone Number: " << it->getPhoneNumber() << '\n' <<
                 "  Email: " << it->getEmail() << '\n';
         }
-    }
-    else {
+    } else {
         // Report there are no members
         cout << "\n  There are no members at this time.\n";
     }
@@ -434,7 +427,7 @@ string getMemberPhoneNumber() {
             cout << "\n  You entered: " << phone_number << ". "
                 " Phone numbers must contain ten digits.\n";
         }
-        // Continue while phone_number does not have the correct number of digits
+        // Continue if phone_number does not have the correct number of digits
     } while (phone_number.length() != PHONE_NUMBER_DIGITS);
     // Return phone number formatted for U.S. (***) ***-****
     return formatPhoneNumber(phone_number);
@@ -488,8 +481,7 @@ void addMember(list<Member>& members) {
     if (members.empty()) {
         // Is first member
         members.push_back(Member(name, phone_number, email));
-    }
-    else {
+    } else {
         // Insert member alphabetically
         for (list<Member>::iterator it = members.begin();
             it != members.end(); it++) {
@@ -592,8 +584,7 @@ int getMemberModifyCase(const Member* modify_member) {
             cin.clear();
             cin.ignore();
             cout << "\n  Invalid option, please make a valid selection.\n";
-        }
-        else {
+        } else {
             // Remove newline character from input stream
             cin.ignore();
         }
@@ -613,7 +604,7 @@ void updateMemberInformation(list<Member>& members) {
     string email;
     // Attribute modify case
     int modify_case = 0;
-    // Confirm member
+    // Confirm member to modify
     string yes_no_answer;
     bool confirm_modify;
     // Find existing member
@@ -633,8 +624,7 @@ void updateMemberInformation(list<Member>& members) {
             // Set confirm_modify true
             confirm_modify = true;
             // Member not found
-        }
-        else {
+        } else {
             // User can choose to exit or try again
             cout << "\n  Member not found.\n"
                 "  Would you like to try again? [Yes/No]: ";
@@ -773,8 +763,7 @@ void randomMember(const list<Member>& members) {
             cout << "\n  There are no more members to choose from. Returning"
                 " to Member Menu.\n";
             return;
-        }
-        else {
+        } else {
             // Display member name
             random_member_index = randomIndex(int(member_names.size()));
             cout << "\n"
@@ -817,8 +806,7 @@ int bookMenu() {
             cin.clear();
             cin.ignore();
             cout << "\n  Invalid option, please make a valid selection.\n";
-        }
-        else {
+        } else {
             // Remove newline character from input stream
             cin.ignore();
         }
@@ -832,7 +820,7 @@ int bookMenu() {
 
 // Book functions
 void bookFunctions(list<Book>& books) {
-    // Return to main menu
+    // Run book functions
     const int MAIN_MENU = 6;
     // Option
     int option;
@@ -887,8 +875,7 @@ void listBooks(const list<Book>& books) {
                 "  Author: " << it->getAuthor() << '\n' <<
                 "  Read: " << book_read_state << '\n';
         }
-    }
-    else {
+    } else {
         // Report there are no books
         cout << "\n  There are no books at this time.\n";
     }
@@ -987,9 +974,8 @@ void addBook(list<Book>& books) {
     if (books.empty()) {
         // Is first book
         books.push_back(Book(title, author_name, read_state));
-    }
-    else {
-        // Insert member alphabetically
+    } else {
+        // Insert book alphabetically
         for (list<Book>::iterator it = books.begin();
             it != books.end(); it++) {
             // Book title has lower value insert in current position
@@ -1043,7 +1029,7 @@ void removeBook(list<Book>& books) {
             // Inform user
             cout << "\n  " << title << " was not found.\n";
         }
-        // Continue while member not removed
+        // Continue while book not removed
     } while (!book_removed);
 } // ---------------------------------------------------------------------------
 
@@ -1058,7 +1044,7 @@ const Book* findBookToUpdate(const list<Book>& books, string title) {
             return it.operator->();
         }
     }
-    // Member not found return null pointer
+    // Book not found return null pointer
     return nullptr;
 } // ---------------------------------------------------------------------------
 
@@ -1075,7 +1061,7 @@ int getBookModifyCase(const Book* modify_book) {
     book_read_state = read_state ? "yes" : "no";
     // Get case
     do {
-        // Confirm member or choose to exit
+        // Confirm book or choose to exit
         cout << "\n"
             "  Current book information:\n" <<
             "  Title: " << modify_book->getTitle() << '\n' <<
@@ -1096,8 +1082,7 @@ int getBookModifyCase(const Book* modify_book) {
             cin.clear();
             cin.ignore();
             cout << "\n  Invalid option, please make a valid selection.\n";
-        }
-        else {
+        } else {
             // Remove newline character from input stream
             cin.ignore();
         }
@@ -1139,8 +1124,7 @@ void updateBookInformation(list<Book>& books) {
             // Set confirm_modify true
             confirm_modify = true;
             // Book not found
-        }
-        else {
+        } else {
             // User can choose to exit or try again
             cout << "\n  Book not found.\n"
                 "  Would you like to try again? [Yes/No]: ";
@@ -1255,7 +1239,7 @@ void randomBook(const list<Book>& books) {
     vector<string> book_titles;
     // Random book index
     int random_book_index;
-    // Read member names into vector
+    // Read book names into vector
     for (list<Book>::const_iterator it = books.begin();
         it != books.end(); it++) {
         book_titles.push_back(it->getTitle());
@@ -1284,8 +1268,7 @@ void randomBook(const list<Book>& books) {
             cout << "\n  There are no more titles to choose from. Returning"
                 " to Book Menu.\n";
             return;
-        }
-        else {
+        } else {
             // Display book title
             random_book_index = randomIndex(int(book_titles.size()));
             cout << "\n"
@@ -1366,14 +1349,14 @@ bool yesNo(string answer) {
 // Clear console
 void clearConsole() {
     // Choose command for system
-#ifdef _WIN32
-// Windows clear command
-    system("cls");
-#elif _WIN64
-// Windows clear command
-    system("cls");
-#else
-// Clear command for most Unix based systems
-    system("clear");
-#endif
+    #ifdef _WIN32
+    // Windows clear command
+        system("cls");
+    #elif _WIN64
+    // Windows clear command
+        system("cls");
+    #else
+    // Clear command for most Unix based systems
+        system("clear");
+    #endif
 } // ---------------------------------------------------------------------------
